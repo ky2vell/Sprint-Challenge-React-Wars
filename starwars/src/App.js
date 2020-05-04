@@ -54,6 +54,7 @@ const App = () => {
             ))}
           </ListGroup>
           <Pages
+            currentPage={currentPage}
             postsPerPage={postsPerPage}
             totalPosts={posts.length}
             paginate={paginate}
