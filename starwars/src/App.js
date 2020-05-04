@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Container, Col, ListGroup } from 'reactstrap';
 import Character from './components/Character';
 import Pages from './components/Pages';
+import * as Utils from './utilities';
 import './App.css';
 
 const App = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5);
+  const [postsPerPage] = useState(10);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      const res = await axios.get('https://swapi.py4e.com/api/people/');
-      setPosts(res.data.results);
-      setLoading(false);
-    };
-
-    fetchPosts();
+    setLoading(true);
+    new Promise((resolve, reject) => {
+      Utils.getPeople(
+        'https://swapi.py4e.com/api/people/',
+        [],
+        resolve,
+        reject
+      );
+    }).then(res => {
+      setPosts(res);
+    });
+    setLoading(false);
   }, []);
 
   const indexOfLastPost = currentPage * postsPerPage;
@@ -34,7 +38,20 @@ const App = () => {
         <Col sm='12' md='6'>
           <h1 className='Header mb-3 mt-3'>Characters</h1>
           <ListGroup className='mb-4'>
-            <Character posts={currentPosts} loading={loading} />
+            {currentPosts.map((el, i) => (
+              <Character
+                loading={loading}
+                key={i}
+                name={el.name}
+                height={el.height}
+                mass={el.mass}
+                hair_color={el.hair_color}
+                skin_color={el.skin_color}
+                eye_color={el.eye_color}
+                birth_year={el.birth_year}
+                gender={el.gender}
+              />
+            ))}
           </ListGroup>
           <Pages
             postsPerPage={postsPerPage}

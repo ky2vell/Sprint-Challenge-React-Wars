@@ -8,7 +8,17 @@ import {
   ListGroupItem
 } from 'reactstrap';
 
-function Character({ posts, loading }) {
+function Character({
+  loading,
+  name,
+  height,
+  mass,
+  hair_color,
+  skin_color,
+  eye_color,
+  birth_year,
+  gender
+}) {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
@@ -17,43 +27,39 @@ function Character({ posts, loading }) {
   }
 
   return (
-    <>
-      {posts.map(post => (
-        <ListGroupItem tag='button' action onClick={toggle}>
-          {post.name}
-          <Modal isOpen={modal} toggle={toggle}>
-            <ModalHeader toggle={toggle}>{post.name}</ModalHeader>
-            <ModalBody>
-              <dl className='row'>
-                <div className='col'>
-                  <dt>Height</dt>
-                  <dd>{post.height}</dd>
-                  <dt>Mass</dt>
-                  <dd>{post.mass}</dd>
-                  <dt>Hair Color</dt>
-                  <dd>{post.hair_color}</dd>
-                  <dt>Skin Color</dt>
-                  <dd>{post.skin_color}</dd>
-                </div>
-                <div className='col'>
-                  <dt>Eye Color</dt>
-                  <dd>{post.eye_color}</dd>
-                  <dt>Birth Year</dt>
-                  <dd>{post.birth_year}</dd>
-                  <dt>Gender</dt>
-                  <dd>{post.gender}</dd>
-                </div>
-              </dl>
-            </ModalBody>
-            <ModalFooter>
-              <Button className='btn btn-default' onClick={toggle}>
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </ListGroupItem>
-      ))}
-    </>
+    <ListGroupItem tag='button' action onClick={toggle}>
+      {name}
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>{name}</ModalHeader>
+        <ModalBody>
+          <dl className='row'>
+            <div className='col'>
+              <dt>Height</dt>
+              <dd>{height}</dd>
+              <dt>Mass</dt>
+              <dd>{mass}</dd>
+              <dt>Hair Color</dt>
+              <dd>{hair_color}</dd>
+              <dt>Skin Color</dt>
+              <dd>{skin_color}</dd>
+            </div>
+            <div className='col'>
+              <dt>Eye Color</dt>
+              <dd>{eye_color}</dd>
+              <dt>Birth Year</dt>
+              <dd>{birth_year}</dd>
+              <dt>Gender</dt>
+              <dd>{gender}</dd>
+            </div>
+          </dl>
+        </ModalBody>
+        <ModalFooter>
+          <Button className='btn btn-default' onClick={toggle}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </ListGroupItem>
   );
 }
 
