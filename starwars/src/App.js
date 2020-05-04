@@ -1,19 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Container, Col, ListGroup } from 'reactstrap';
+import Character from './components/Character';
 import './App.css';
 
 const App = () => {
-  // Try to think through what state you'll need for this app before starting. Then build out
-  // the state properties here.
+  const [data, setData] = useState([]);
 
-  // Fetch characters from the API in an effect hook. Remember, anytime you have a 
-  // side effect in a component, you want to think about which state and/or props it should
-  // sync up with, if any.
+  useEffect(() => {
+    axios
+      .get(`https://swapi.py4e.com/api/people/`)
+      .then(res => setData(res.data.results))
+      .catch(console.log);
+  }, []);
 
   return (
-    <div className="App">
-      <h1 className="Header">Characters</h1>
+    <div className='App'>
+      <Container className='d-flex justify-content-center'>
+        <Col sm='12' md='6'>
+          <h1 className='Header mb-3 mt-3'>Characters</h1>
+          <ListGroup className='mb-4'>
+            {data.map((el, i) => (
+              <Character
+                key={i}
+                name={el.name}
+                height={el.height}
+                mass={el.mass}
+                hair_color={el.hair_color}
+                skin_color={el.skin_color}
+                eye_color={el.eye_color}
+                birth_year={el.birth_year}
+                gender={el.gender}
+              />
+            ))}
+          </ListGroup>
+        </Col>
+      </Container>
     </div>
   );
-}
+};
 
 export default App;
